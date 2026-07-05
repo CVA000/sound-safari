@@ -1,3 +1,7 @@
+<details>
+<summary><b>Click to expand: Complete <code>index.html</code></b></summary>
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -380,7 +384,7 @@
             </div>
         </div>
         <h2>Sound Safari</h2>
-        <p>Ken and Tilly forgot whose words are whose! Come along on a sound safari adventure and help them find their matching words.<br><br><strong>Tilly</strong> treasures words that start with the <strong>/t/</strong> sound.<br>And words starting with <strong>/k/</strong> belongs to king of the jungle <strong>Ken</strong>!</p>
+        <p>Ken and Tilly forgot whose words are whose! Come along on a sound safari adventure and help them find their matching words.<br><br><strong>Tilly</strong> treasures words that start with the <strong>/t/</strong> sound.<br>And king of the jungle <strong>Ken</strong> collects every word that starts with <strong>/k/</strong>!</p>
         <button id="introGoBtn">Let's Go!</button>
     </div>
 </div>
@@ -424,7 +428,7 @@
 
 <div class="overlay" id="completionOverlay">
     <div class="overlay-card">
-        <h2>Great work!</h2>
+        <h2 id="completionTitle">Great work!</h2>
         <div class="big-score" id="finalScore">0/10</div>
         <p>You helped Ken and Tilly find their words.</p>
         <button id="playAgainBtn">Play Again</button>
@@ -456,6 +460,7 @@
     var introOverlay = document.getElementById('introOverlay');
     var introGoBtn  = document.getElementById('introGoBtn');
     var completionOverlay = document.getElementById('completionOverlay');
+    var completionTitle = document.getElementById('completionTitle');
     var finalScore  = document.getElementById('finalScore');
     var playAgainBtn = document.getElementById('playAgainBtn');
 
@@ -651,6 +656,17 @@
         clearFeedback();
         roundInfo.textContent = 'All done!';
         finalScore.textContent = score + ' / 10';
+
+        if (score <= 5) {
+            completionTitle.textContent = 'Keep Practicing!';
+        } else if (score <= 7) {
+            completionTitle.textContent = 'Getting There!';
+        } else if (score <= 9) {
+            completionTitle.textContent = 'Almost Perfect!';
+        } else {
+            completionTitle.textContent = 'Perfect Score!';
+        }
+
         completionOverlay.classList.add('show');
     }
 
@@ -676,6 +692,7 @@
         listenBtn.textContent = '🔊 Listen';
         clearFeedback();
         completionOverlay.classList.remove('show');
+        completionTitle.textContent = 'Great work!';
         updateRoundDisplay();
     }
 
