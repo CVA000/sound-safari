@@ -13,12 +13,26 @@
 
         body {
             font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(180deg, #fef9e7 0%, #fdebd0 100%);
+            background: linear-gradient(180deg, #fef9e7 0%, #f5e6c8 55%, #d4dca0 72%, #b5c888 100%);
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 25px;
+            right: 35px;
+            width: 90px;
+            height: 90px;
+            background: radial-gradient(circle, #fff7e0 0%, #ffe0a0 50%, transparent 72%);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
         }
 
         .container {
@@ -29,6 +43,8 @@
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
             padding: 32px 28px 28px;
             text-align: center;
+            position: relative;
+            z-index: 1;
         }
 
         .header {
@@ -57,7 +73,7 @@
         }
 
         .char-btn {
-            width: 180px;
+            width: 210px;
             padding: 20px 12px 16px;
             border: 3px solid #e0d5c1;
             border-radius: 22px;
@@ -95,8 +111,8 @@
         }
 
         .char-btn img {
-            width: 100px;
-            height: 100px;
+            width: 130px;
+            height: 130px;
             object-fit: contain;
             display: block;
             margin: 0 auto 10px;
@@ -108,6 +124,14 @@
             font-weight: 700;
             color: #4e342e;
             pointer-events: none;
+        }
+
+        .char-btn .char-subtitle {
+            font-size: 0.8rem;
+            color: #a1887f;
+            pointer-events: none;
+            margin-top: -2px;
+            margin-bottom: 2px;
         }
 
         .char-btn .char-sound {
@@ -213,7 +237,7 @@
             background: #f5f0eb;
         }
 
-        .completion {
+        .overlay {
             display: none;
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -223,40 +247,41 @@
             z-index: 10;
         }
 
-        .completion.show {
+        .overlay.show {
             display: flex;
         }
 
-        .completion-card {
+        .overlay-card {
             background: #fff;
             border-radius: 24px;
             padding: 36px 28px;
             text-align: center;
-            max-width: 360px;
+            max-width: 400px;
             width: 90%;
             box-shadow: 0 12px 40px rgba(0,0,0,0.15);
         }
 
-        .completion-card h2 {
-            font-size: 1.8rem;
+        .overlay-card h2 {
+            font-size: 1.6rem;
             color: #5d4037;
             margin-bottom: 10px;
         }
 
-        .completion-card .big-score {
+        .overlay-card .big-score {
             font-size: 3rem;
             font-weight: 700;
             color: #ff9800;
             margin-bottom: 6px;
         }
 
-        .completion-card p {
-            color: #8d6e63;
+        .overlay-card p {
+            color: #6d5d4b;
             margin-bottom: 18px;
             font-size: 0.95rem;
+            line-height: 1.5;
         }
 
-        .completion-card button {
+        .overlay-card button {
             font-size: 1rem;
             padding: 12px 32px;
             border: none;
@@ -266,6 +291,37 @@
             cursor: pointer;
             font-weight: 600;
             outline: none;
+        }
+
+        .intro-mascots {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+            margin-bottom: 16px;
+        }
+
+        .intro-mascot {
+            text-align: center;
+        }
+
+        .intro-mascot img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 4px;
+        }
+
+        .intro-mascot .intro-name {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #4e342e;
+        }
+
+        .intro-mascot .intro-desc {
+            font-size: 0.75rem;
+            color: #a1887f;
         }
 
         @media (max-width: 480px) {
@@ -279,14 +335,14 @@
             }
 
             .char-btn {
-                width: 140px;
+                width: 155px;
                 padding: 14px 8px 12px;
                 border-radius: 18px;
             }
 
             .char-btn img {
-                width: 70px;
-                height: 70px;
+                width: 80px;
+                height: 80px;
             }
 
             .header h1 {
@@ -297,10 +353,37 @@
                 font-size: 1.1rem;
                 padding: 12px 32px;
             }
+
+            body::before {
+                top: 15px;
+                right: 18px;
+                width: 60px;
+                height: 60px;
+            }
         }
     </style>
 </head>
 <body>
+
+<div class="overlay show" id="introOverlay">
+    <div class="overlay-card">
+        <div class="intro-mascots">
+            <div class="intro-mascot">
+                <img src="images/ken.PNG" alt="Ken the Calico Cat">
+                <div class="intro-name">Ken</div>
+                <div class="intro-desc">the Calico Cat</div>
+            </div>
+            <div class="intro-mascot">
+                <img src="images/tilly.PNG" alt="Tilly the Teal Turtle">
+                <div class="intro-name">Tilly</div>
+                <div class="intro-desc">the Teal Turtle</div>
+            </div>
+        </div>
+        <h2>Sound Safari</h2>
+        <p>Ken and Tilly forgot whose words are whose! Come along on a sound safari adventure and help them find their matching words.<br><br><strong>Tilly</strong> treasures words that start with the <strong>/t/</strong> sound.<br>And <strong>/k/</strong> is king of the jungle, so <strong>Ken</strong> claims every word that starts with <strong>/k/</strong>!</p>
+        <button id="introGoBtn">Let's Go!</button>
+    </div>
+</div>
 
 <div class="container">
     <div class="header">
@@ -312,12 +395,14 @@
         <button class="char-btn" id="kenBtn" disabled>
             <img src="images/ken.PNG" alt="Ken the Calico Cat">
             <div class="char-name">Ken</div>
+            <div class="char-subtitle">the Calico Cat</div>
             <div class="char-sound">/k/ sound</div>
         </button>
 
         <button class="char-btn" id="tillyBtn" disabled>
             <img src="images/tilly.PNG" alt="Tilly the Teal Turtle">
             <div class="char-name">Tilly</div>
+            <div class="char-subtitle">the Teal Turtle</div>
             <div class="char-sound">/t/ sound</div>
         </button>
     </div>
@@ -333,12 +418,12 @@
     <div class="round-info" id="roundInfo">Round 1 of 10</div>
 
     <button class="reset-btn" id="resetBtn">Start Over</button>
-    
-    <div style="margin-top:18px;font-size:0.8rem;color:#bcaaa4;">Audio Clips and Illustrations by Chloe Villa-Abrille</div>
+
+    <div style="margin-top:18px;font-size:0.8rem;color:#bcaaa4;">Audio Clips and Illustrations by me! (Chloe Villa-Abrille for CDIS 421)</div>
 </div>
 
-<div class="completion" id="completionOverlay">
-    <div class="completion-card">
+<div class="overlay" id="completionOverlay">
+    <div class="overlay-card">
         <h2>Great work!</h2>
         <div class="big-score" id="finalScore">0/10</div>
         <p>You helped Ken and Tilly find their words.</p>
@@ -348,7 +433,7 @@
 
 <script>
 (function() {
-    const pairs = [
+    var pairs = [
         { k: { word: 'cat',    file: 'audio/cat.mp3'  }, t: { word: 'tap',  file: 'audio/tap.mp3'  } },
         { k: { word: 'key',    file: 'audio/key.mp3'  }, t: { word: 'tea',  file: 'audio/tea.mp3'  } },
         { k: { word: 'cape',   file: 'audio/cape.mp3' }, t: { word: 'tape', file: 'audio/tape.mp3' } },
@@ -361,31 +446,35 @@
         { k: { word: 'kick',   file: 'audio/kick.mp3' }, t: { word: 'tick', file: 'audio/tick.mp3' } }
     ];
 
-    const kenBtn      = document.getElementById('kenBtn');
-    const tillyBtn    = document.getElementById('tillyBtn');
-    const listenBtn   = document.getElementById('listenBtn');
-    const feedback    = document.getElementById('feedback');
-    const starsRow    = document.getElementById('starsRow');
-    const roundInfo   = document.getElementById('roundInfo');
-    const resetBtn    = document.getElementById('resetBtn');
-    const overlay     = document.getElementById('completionOverlay');
-    const finalScore  = document.getElementById('finalScore');
-    const playAgainBtn = document.getElementById('playAgainBtn');
+    var kenBtn      = document.getElementById('kenBtn');
+    var tillyBtn    = document.getElementById('tillyBtn');
+    var listenBtn   = document.getElementById('listenBtn');
+    var feedback    = document.getElementById('feedback');
+    var starsRow    = document.getElementById('starsRow');
+    var roundInfo   = document.getElementById('roundInfo');
+    var resetBtn    = document.getElementById('resetBtn');
+    var introOverlay = document.getElementById('introOverlay');
+    var introGoBtn  = document.getElementById('introGoBtn');
+    var completionOverlay = document.getElementById('completionOverlay');
+    var finalScore  = document.getElementById('finalScore');
+    var playAgainBtn = document.getElementById('playAgainBtn');
 
-    let shuffledPairs  = [];
-    let roundIndex     = 0;
-    let score          = 0;
-    let currentTarget  = null;
-    let currentAudio   = null;
-    let firstAttempt   = true;
-    let roundActive    = false;
-    let gameOver       = false;
+    var shuffledPairs  = [];
+    var roundIndex     = 0;
+    var score          = 0;
+    var currentTarget  = null;
+    var currentAudio   = null;
+    var firstAttempt   = true;
+    var roundActive    = false;
+    var gameOver       = false;
 
     function shuffle(arr) {
-        const a = arr.slice();
-        for (let i = a.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [a[i], a[j]] = [a[j], a[i]];
+        var a = arr.slice();
+        for (var i = a.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var tmp = a[i];
+            a[i] = a[j];
+            a[j] = tmp;
         }
         return a;
     }
@@ -468,6 +557,11 @@
     function startRound() {
         if (gameOver) return;
 
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+        }
+
         if (roundIndex >= 10) {
             endGame();
             return;
@@ -489,6 +583,7 @@
 
     function onListenClick() {
         if (gameOver) return;
+        if (listenBtn.disabled) return;
         if (roundActive) {
             playCurrentWord();
             return;
@@ -514,6 +609,11 @@
         if (isCorrect) {
             roundActive = false;
             setCharactersEnabled(false);
+            listenBtn.disabled = true;
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+            }
             flashCharacter(btn, 'correct');
             bounceCharacter(btn);
 
@@ -551,7 +651,7 @@
         clearFeedback();
         roundInfo.textContent = 'All done!';
         finalScore.textContent = score + ' / 10';
-        overlay.classList.add('show');
+        completionOverlay.classList.add('show');
     }
 
     function resetGame() {
@@ -559,6 +659,10 @@
         roundIndex = 0;
         score = 0;
         currentTarget = null;
+        if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+        }
         currentAudio = null;
         firstAttempt = true;
         roundActive = false;
@@ -571,17 +675,25 @@
         listenBtn.classList.add('pulse');
         listenBtn.textContent = '🔊 Listen';
         clearFeedback();
-        overlay.classList.remove('show');
+        completionOverlay.classList.remove('show');
         updateRoundDisplay();
+    }
 
+    function startGame() {
+        resetGame();
         startRound();
     }
+
+    introGoBtn.addEventListener('click', function() {
+        introOverlay.classList.remove('show');
+        startGame();
+    });
 
     listenBtn.addEventListener('click', onListenClick);
     kenBtn.addEventListener('click', function() { onCharacterClick('k'); });
     tillyBtn.addEventListener('click', function() { onCharacterClick('t'); });
-    resetBtn.addEventListener('click', resetGame);
-    playAgainBtn.addEventListener('click', resetGame);
+    resetBtn.addEventListener('click', startGame);
+    playAgainBtn.addEventListener('click', startGame);
 
     resetGame();
 })();
